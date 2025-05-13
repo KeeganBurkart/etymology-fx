@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro-preview-05-06" }); // Or your preferred model
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro-exp-03-25" }); // Or your preferred model
 
         const prompt = `
             You are an expert etymologist. Analyze the word "${word}".
