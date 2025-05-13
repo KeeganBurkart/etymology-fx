@@ -1,0 +1,212 @@
+/* --- General Setup & Body --- */
+body, html {
+    height: 100%;
+    margin: 0;
+    background-color: #05000f; /* Very dark purple/blue */
+    color: #e0e0e0;
+    font-family: 'Roboto Mono', monospace; /* Default fallback font */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#app-container {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    max-width: 800px; /* Max width for content */
+    width: 90%;
+}
+
+/* --- Particle Background Placeholder --- */
+#particle-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    /* tsParticles will target this */
+}
+
+/* --- Input Area --- */
+#input-container {
+    margin-bottom: 40px;
+    position: relative; /* For potential animations or absolute positioning of elements */
+}
+
+#wordInput {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #00f7ff; /* Glowing cyan */
+    color: #f0f0f0;
+    font-family: 'Roboto Mono', monospace;
+    font-size: clamp(1rem, 4vw, 1.5rem); /* Responsive font size */
+    padding: 10px 15px;
+    text-align: center;
+    outline: none;
+    caret-color: #ff00ff; /* Magenta caret */
+    width: 70%;
+    max-width: 400px;
+    transition: all 0.3s ease;
+}
+
+#wordInput::placeholder {
+    color: #777;
+}
+#wordInput:focus {
+    border-bottom-color: #ff00ff; /* Magenta on focus */
+    box-shadow: 0 2px 15px -5px #ff00ff;
+}
+
+
+/* --- Word Display Area (for clickable floating word) --- */
+#word-display-area {
+    min-height: 120px; /* Give it space for floating */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    perspective: 500px; /* For 3D-ish animations if desired */
+}
+
+.interactive-word {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2.5rem, 8vw, 5rem); /* Responsive large font */
+    font-weight: bold;
+    color: #ff40ff; /* Vibrant magenta/pink */
+    text-shadow:
+        0 0 5px #ff40ff,
+        0 0 10px #ff40ff,
+        0 0 20px #ff40ff,
+        0 0 30px #f09,
+        0 0 40px #f09;
+    cursor: pointer;
+    padding: 10px;
+    display: inline-block;
+    animation: gentleFloat 5s ease-in-out infinite, pulseGlowWord 2.5s ease-in-out infinite alternate;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.interactive-word:hover {
+    transform: scale(1.05) translateY(-5px); /* Slight lift on hover */
+    text-shadow: /* Brighter glow on hover */
+        0 0 8px #ff77ff,
+        0 0 15px #ff77ff,
+        0 0 25px #ff77ff,
+        0 0 35px #f09,
+        0 0 50px #f09;
+}
+
+/* --- Etymology Results Area --- */
+#etymology-results-area {
+    margin-top: 20px;
+    opacity: 0; /* Hidden initially, shown by JS */
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+#etymology-results-area.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.overall-etymology-text {
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    color: #c0c0c0;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+.morphemes-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow morphemes to wrap on smaller screens */
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top */
+    gap: 20px; /* Spacing between morpheme groups */
+}
+
+.morpheme-group {
+    padding: 15px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.03); /* Very subtle background */
+    border: 1px solid rgba(0, 247, 255, 0.2); /* Subtle cyan border */
+    min-width: 150px; /* Ensure some width for content */
+    opacity: 0; /* For staggered animation */
+    transform: scale(0.8) translateY(10px);
+    /* Animation will be applied by JS for stagger */
+}
+
+.morpheme-particle {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    color: #00f7ff; /* Glowing cyan */
+    text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff;
+    margin-bottom: 10px;
+    display: block; /* Each morpheme on its own line within its group */
+    animation: morphemeParticleFloat 6s ease-in-out infinite alternate;
+}
+
+.morpheme-details {
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    color: #b0b0b0;
+    line-height: 1.5;
+}
+.morpheme-details span {
+    display: block; /* Each detail on a new line */
+    margin-bottom: 3px;
+}
+.morpheme-details .detail-label {
+    color: #80e0ff; /* Lighter cyan for labels */
+    font-weight: bold;
+}
+
+/* --- Loading Indicator --- */
+#loading-indicator {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    color: #ff40ff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+}
+#loading-indicator.hidden {
+    opacity: 0;
+    pointer-events: none; /* Make it non-interactive when hidden */
+    display: none; /* Or use display: none if preferred */
+}
+.spinner { /* Simple CSS spinner */
+    width: 30px;
+    height: 30px;
+    border: 4px solid rgba(255, 64, 255, 0.3);
+    border-top-color: #ff40ff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+
+/* --- Animations --- */
+@keyframes gentleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+@keyframes pulseGlowWord { /* For main interactive word */
+    0% { text-shadow: 0 0 5px #ff40ff, 0 0 10px #ff40ff, 0 0 20px #ff40ff, 0 0 30px #f09; }
+    100% { text-shadow: 0 0 8px #ff77ff, 0 0 15px #ff77ff, 0 0 25px #ff77ff, 0 0 40px #f09, 0 0 55px #f09; }
+}
+@keyframes morphemeParticleFloat { /* For individual morpheme elements */
+    0%, 100% { transform: translateY(0px) rotate(-1deg); }
+    50% { transform: translateY(-5px) rotate(1deg); }
+}
+@keyframes fadeInAndUpMorpheme { /* For morpheme groups */
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
