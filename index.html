@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etymology Explorer FX</title>
+    <!-- Example Fonts (replace with your choices) -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app-container">
+        <div id="input-container">
+            <input type="text" id="wordInput" placeholder="Enter a word..." autocomplete="off">
+        </div>
+
+        <div id="word-display-area">
+            <!-- The main word will float here and be clickable -->
+            <!-- e.g., <div id="interactiveWord" class="word-particle" data-word="example">example</div> -->
+        </div>
+
+        <div id="etymology-results-area">
+            <!-- Morphemes and their details will be displayed here -->
+        </div>
+
+        <div id="loading-indicator" class="hidden">
+            <div class="spinner"></div>
+            Analyzing...
+        </div>
+    </div>
+
+    <div id="particle-background"></div> <!-- For tsParticles or similar -->
+
+    <script src="script.js"></script>
+    <!-- Optional: tsParticles library if you choose to use it -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/tsparticles-engine@2/tsparticles.engine.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/tsparticles-slim@2/tsparticles.slim.min.js"></script> -->
+</body>
+</html>
