@@ -1,10 +1,28 @@
+/* --- Root Variables --- */
+:root {
+    --bg-color: #1c0f0a; /* JSON background */
+    --highlight-color: #ffffff; /* JSON highlight */
+    --accent-color: #f0c087; /* JSON accent */
+    --glow-color: #ffe5c2; /* JSON glow (used for non-text glows) */
+    --text-primary: #ffffff; /* JSON textPrimary */
+    --text-secondary: #f4b680; /* JSON textSecondary */
+
+    /* Typography */
+    --font-family-apple: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; /* Apple font stack */
+    --letter-spacing: 0.5px;
+
+    /* Metallic Gradient Colors (for text) */
+    --metallic-gradient: linear-gradient(180deg, #f0f0f0, #c0c0c0); /* Light silver to darker silver */
+}
+
 /* --- General Setup & Body --- */
 body, html {
     height: 100%;
     margin: 0;
-    background-color: #05000f; /* Very dark purple/blue */
-    color: #e0e0e0;
-    font-family: 'Roboto Mono', monospace; /* Default fallback font */
+    background-color: var(--bg-color); /* Use JSON bg */
+    color: var(--text-primary); /* Use JSON text primary */
+    font-family: var(--font-family-apple); /* Use Apple font */
+    letter-spacing: var(--letter-spacing); /* Apply letter spacing globally */
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -34,31 +52,33 @@ body, html {
 /* --- Input Area --- */
 #input-container {
     margin-bottom: 40px;
-    position: relative; /* For potential animations or absolute positioning of elements */
+    position: relative;
 }
 
 #wordInput {
     background: transparent;
     border: none;
-    border-bottom: 2px solid #00f7ff; /* Glowing cyan */
-    color: #f0f0f0;
-    font-family: 'Roboto Mono', monospace;
-    font-size: clamp(1rem, 4vw, 1.5rem); /* Responsive font size */
+    border-bottom: 2px solid var(--accent-color); /* Use accent color */
+    color: var(--text-primary);
+    font-family: var(--font-family-apple); /* Use Apple font */
+    font-size: clamp(1rem, 4vw, 1.5rem);
     padding: 10px 15px;
     text-align: center;
     outline: none;
-    caret-color: #ff00ff; /* Magenta caret */
+    caret-color: var(--accent-color); /* Use accent color for caret */
     width: 70%;
     max-width: 400px;
     transition: all 0.3s ease;
+    letter-spacing: var(--letter-spacing); /* Inherited, but good to be explicit */
 }
 
 #wordInput::placeholder {
-    color: #777;
+    color: var(--text-secondary); /* Use secondary text color for placeholder */
+    opacity: 0.7;
 }
 #wordInput:focus {
-    border-bottom-color: #ff00ff; /* Magenta on focus */
-    box-shadow: 0 2px 15px -5px #ff00ff;
+    border-bottom-color: var(--highlight-color); /* White highlight on focus */
+    box-shadow: 0 2px 15px -5px var(--glow-color); /* Use glow color for focus shadow */
 }
 
 
@@ -73,31 +93,35 @@ body, html {
 }
 
 .interactive-word {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(2.5rem, 8vw, 5rem); /* Responsive large font */
+    font-family: var(--font-family-apple); /* Apple font */
+    font-size: clamp(3rem, 9vw, 6rem); /* Make it slightly larger like Apple titles */
     font-weight: bold;
-    color: #ff40ff; /* Vibrant magenta/pink */
-    text-shadow:
-        0 0 5px #ff40ff,
-        0 0 10px #ff40ff,
-        0 0 20px #ff40ff,
-        0 0 30px #f09,
-        0 0 40px #f09;
-    cursor: pointer;
     padding: 10px;
     display: inline-block;
-    animation: gentleFloat 5s ease-in-out infinite, pulseGlowWord 2.5s ease-in-out infinite alternate;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    cursor: pointer;
+    letter-spacing: var(--letter-spacing);
+
+    /* Metallic Text Effect */
+    background: var(--metallic-gradient);
+    -webkit-background-clip: text; /* Safari/Chrome */
+    background-clip: text;
+    color: transparent; /* Hide the actual text color */
+    /* Fallback for browsers not supporting background-clip */
+    /* color: #d3d3d3; /* Light gray fallback */
+
+    /* Subtle Drop Shadow (instead of glow) */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Soft dark shadow */
+
+    /* Tetris Effect Animation */
+    animation: gentleFloat 5s ease-in-out infinite;
+    transition: transform 0.3s ease; /* Keep hover transition */
 }
+
 .interactive-word:hover {
-    transform: scale(1.05) translateY(-5px); /* Slight lift on hover */
-    text-shadow: /* Brighter glow on hover */
-        0 0 8px #ff77ff,
-        0 0 15px #ff77ff,
-        0 0 25px #ff77ff,
-        0 0 35px #f09,
-        0 0 50px #f09;
+    transform: scale(1.03) translateY(-5px); /* Slight lift on hover */
+    /* No change needed for metallic text on hover unless desired */
 }
+
 
 /* --- Etymology Results Area --- */
 #etymology-results-area {
@@ -113,59 +137,80 @@ body, html {
 
 .overall-etymology-text {
     font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-    color: #c0c0c0;
+    color: var(--text-secondary); /* Use secondary text color */
     line-height: 1.6;
     margin-bottom: 30px;
-    font-style: italic;
+    font-style: normal; /* Remove italic if not desired */
+    font-weight: 300; /* Lighter weight maybe? */
 }
 
 .morphemes-container {
     display: flex;
     flex-wrap: wrap; /* Allow morphemes to wrap on smaller screens */
     justify-content: center;
-    align-items: flex-start; /* Align items to the top */
+    align-items: stretch; /* Make groups same height if wrapping */
     gap: 20px; /* Spacing between morpheme groups */
 }
 
+/* Style the rectangle */
 .morpheme-group {
-    padding: 15px;
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.03); /* Very subtle background */
-    border: 1px solid rgba(0, 247, 255, 0.2); /* Subtle cyan border */
-    min-width: 150px; /* Ensure some width for content */
+    padding: 20px; /* More padding inside rectangle */
+    border-radius: 12px; /* Rounded corners */
+    background-color: rgba(240, 192, 135, 0.05); /* Very subtle accent background */
+    border: 1px solid var(--accent-color); /* Accent color border */
+    min-width: 160px; /* Ensure some width for content */
     opacity: 0; /* For staggered animation */
     transform: scale(0.8) translateY(10px);
     /* Animation will be applied by JS for stagger */
+    text-align: left; /* Align text inside rectangle left */
+    display: flex; /* Use flexbox for internal layout */
+    flex-direction: column; /* Stack particle and details */
+    animation-fill-mode: forwards; /* Keep styles after animation */
 }
 
 .morpheme-particle {
-    font-family: 'Orbitron', sans-serif;
+    font-family: var(--font-family-apple); /* Apple font */
     font-size: clamp(1.5rem, 4vw, 2rem);
-    color: #00f7ff; /* Glowing cyan */
-    text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff;
-    margin-bottom: 10px;
+    font-weight: bold;
+    margin-bottom: 12px; /* Space between particle and details */
     display: block; /* Each morpheme on its own line within its group */
+
+    /* Metallic Text Effect */
+    background: var(--metallic-gradient);
+    -webkit-background-clip: text; /* Safari/Chrome */
+    background-clip: text;
+    color: transparent; /* Hide the actual text color */
+    /* Fallback */
+    /* color: #d3d3d3; */
+
+    /* No glow/shadow needed here based on req */
+    text-shadow: none; /* Explicitly remove any inherited shadow */
+
+    /* Keep subtle animation if desired */
     animation: morphemeParticleFloat 6s ease-in-out infinite alternate;
 }
 
 .morpheme-details {
+    font-family: var(--font-family-apple); /* Ensure font */
     font-size: clamp(0.8rem, 2vw, 0.9rem);
-    color: #b0b0b0;
+    color: var(--text-secondary); /* Secondary text color */
     line-height: 1.5;
 }
 .morpheme-details span {
     display: block; /* Each detail on a new line */
-    margin-bottom: 3px;
+    margin-bottom: 4px;
 }
 .morpheme-details .detail-label {
-    color: #80e0ff; /* Lighter cyan for labels */
-    font-weight: bold;
+    color: var(--text-primary); /* Use primary white for labels */
+    font-weight: 500; /* Medium weight for labels */
+    margin-right: 5px; /* Space after label */
+    display: inline-block; /* Keep label and value together if space allows */
 }
 
 /* --- Loading Indicator --- */
 #loading-indicator {
     font-size: clamp(1rem, 3vw, 1.2rem);
-    color: #ff40ff;
+    color: var(--accent-color); /* Accent color for text */
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -181,8 +226,8 @@ body, html {
 .spinner { /* Simple CSS spinner */
     width: 30px;
     height: 30px;
-    border: 4px solid rgba(255, 64, 255, 0.3);
-    border-top-color: #ff40ff;
+    border: 4px solid rgba(240, 192, 135, 0.3); /* Accent color light */
+    border-top-color: var(--accent-color); /* Accent color */
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin-bottom: 10px;
@@ -193,13 +238,9 @@ body, html {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-15px); }
 }
-@keyframes pulseGlowWord { /* For main interactive word */
-    0% { text-shadow: 0 0 5px #ff40ff, 0 0 10px #ff40ff, 0 0 20px #ff40ff, 0 0 30px #f09; }
-    100% { text-shadow: 0 0 8px #ff77ff, 0 0 15px #ff77ff, 0 0 25px #ff77ff, 0 0 40px #f09, 0 0 55px #f09; }
-}
 @keyframes morphemeParticleFloat { /* For individual morpheme elements */
-    0%, 100% { transform: translateY(0px) rotate(-1deg); }
-    50% { transform: translateY(-5px) rotate(1deg); }
+    0%, 100% { transform: translateY(0px) rotate(0deg); } /* Removed rotation */
+    50% { transform: translateY(-5px) rotate(0deg); }
 }
 @keyframes fadeInAndUpMorpheme { /* For morpheme groups */
     to {
@@ -209,4 +250,14 @@ body, html {
 }
 @keyframes spin {
     to { transform: rotate(360deg); }
+}
+
+/* --- Error Message Styling (Optional Basic) --- */
+.error-message {
+    color: #ff6b6b; /* A reddish error color */
+    background-color: rgba(255, 107, 107, 0.1);
+    border: 1px solid rgba(255, 107, 107, 0.5);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
 }
